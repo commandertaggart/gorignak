@@ -1,0 +1,33 @@
+{
+  "name": "gorignak",
+  "version": "0.0.1",
+  "description": "Rocks In Space!!!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node index.js --presets es2015,stage-2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glikker/gorignak.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/glikker/gorignak/issues"
+  },
+  "homepage": "https://github.com/glikker/gorignak#readme",
+  "dependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-preset-stage-2": "^6.13.0",
+    "copy-webpack-plugin": "^3.0.1",
+    "express": "^4.14.0",
+    "file-loader": "^0.9.0",
+    "json-loader": "^0.5.4",
+    "webpack": "^1.13.2"
+  }
+}
