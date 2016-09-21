@@ -1,4 +1,5 @@
 
+let EventEmitter = require('events');
 import Component from 'Component';
 
 export default class Entity
@@ -13,6 +14,19 @@ export default class Entity
 		};
 
 		this._components = [];
+		this._events = new EventEmitter();
+	}
+
+	on(event, handler)
+	{ this._events.on(event, handler); }
+	once(event, handler)
+	{ this._events.once(event, handler); }
+	off(event, handler)
+	{ this._events.removeListener(event, handler); }
+	emit(event, ...args)
+	{
+		args.unshift(event, this);
+		this._events.emit.apply(this._events, args);
 	}
 
 	get id() { return _id; }
@@ -39,7 +53,7 @@ export default class Entity
 			this._components.splice(idx, 1);
 
 			component.parent = null;
-			
+
 			return true;
 		}
 		return false;
@@ -52,23 +66,17 @@ export default class Entity
 		// can be a component object
 		idx = this._components.indexOf(idx);
 		if (idx >= 0)
-		{
-			return this.removeComponentAtIndex(idx);
-		}
+		{ return this.removeComponentAtIndex(idx); }
 
 		// otherwise check for id match
 		idx = this._components.findIndex(item => item.id == component);
 		if (idx >= 0)
-		{
-			return this.removeComponentAtIndex(idx);
-		}
+		{ return this.removeComponentAtIndex(idx); }
 
 		// or type match
 		var typeMatch = false;
 		while ((idx = this._components.findIndex(item => item.type == component)) >= 0)
-		{
-			typeMatch = typeMatch || this.removeComponentAtIndex(idx);
-		}
+		{ typeMatch = typeMatch || this.removeComponentAtIndex(idx); }
 
 		return typeMatch;
 	}
