@@ -1,5 +1,5 @@
 
-import EntityCollection from 'EntityCollection';
+import EntityCollection from './EntityCollection.js';
 
 export default class Arena
 {

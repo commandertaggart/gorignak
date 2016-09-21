@@ -1,6 +1,6 @@
 
 let EventEmitter = require('events');
-import Component from 'Component';
+import Component from './Component.js';
 
 export default class Entity
 {
