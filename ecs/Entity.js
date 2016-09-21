@@ -85,4 +85,14 @@ export default class Entity
 	{
 		return this._components.some(item => item.type === componentType);
 	}
+
+	isAnyOf(...componentTypes)
+	{
+		return componentTypes.some(type => this.isA(type));
+	}
+
+	isAllOf(...componentTypes)
+	{
+		return componentTypes.every(type => this.isA(type));
+	}
 }

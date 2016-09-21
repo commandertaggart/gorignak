@@ -25,7 +25,7 @@ export default class EntityCollection
 
 	forEach(fn)
 	{ this._.forEach(entity => fn(entity)); }
-	
+
 	clone()
 	{
 		return new EntityCollection(this._.slice());
@@ -38,6 +38,6 @@ export default class EntityCollection
 
 	filterByComponentType(type)
 	{
-		return this.filter(entity => entity.type == type);
+		return this.filter(entity => entity.isA(type));
 	}
 }
