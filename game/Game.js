@@ -1,13 +1,13 @@
 
 import GameStream from 'gamestream';
-import { Arena } from '../ecs/';
+import { Arena, Entity } from '../ecs/';
 import PhysicsSystem from './physics/PhysicsSystem.js';
 
 export default class Game extends Arena {
 	
 	constructor() {
 		super();
-		console.info('Congratulations minor mortal!!! You are playing..... Gooooorginaaaaaaaaakkkkk!!!!');
+		console.info('Congratulations minor mortal!!! You are playing..... Gooooorignaaaaaaaaakkkkk!!!!');
 
 		this.stream = new GameStream();
 

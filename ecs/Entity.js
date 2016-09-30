@@ -14,6 +14,7 @@ export default class Entity
 		};
 
 		this._components = [];
+		this._valid = false;
 		this._events = new EventEmitter();
 	}
 
@@ -81,6 +82,11 @@ export default class Entity
 		return typeMatch;
 	}
 
+	componentsOfType(type)
+	{
+		return this._components.filter(item => item.type == type);
+	}
+
 	isA(componentType)
 	{
 		return this._components.some(item => item.type === componentType);
@@ -94,5 +100,66 @@ export default class Entity
 	isAllOf(...componentTypes)
 	{
 		return componentTypes.every(type => this.isA(type));
+	}
+
+	validate()
+	{
+		this._components.forEach(component => component.validate());
+
+		var unsorted = this._components;
+		var sorted = [];
+
+		while (unsorted.length > 0)
+		{
+			let count = unsorted.length;
+
+			unsorted = unsorted.filter(c => {
+				if (c.every(d => sorted.indexOf(d) >= 0))
+				{
+					sorted.push(c);
+					return false;
+				}
+				return true;
+			});
+
+			if (count == unsorted.length)
+			{
+				console.error("Entity '" + this._id + "' has circularly dependent components: " +
+					unsorted.map(c => "'" + c.id + "'").join(", "));
+				sorted = sorted.concat(unsorted);
+				unsorted = [];
+			}
+		}
+
+		this._components = sorted;
+		this._valid = true;
+	}
+
+	tick()
+	{
+		if (!this._valid)
+			{ this.validate(); }
+
+		var components = this._components.slice();
+
+		while (components.length > 0)
+		{
+			let len = components.length;
+			components = components.filter(c => {
+				if (c.shouldDeferTick())
+					{ return true; }
+				c.tick();
+				return false;
+			});
+
+			if (len == components.length)
+			{
+				// all of them want to defer, looks like a circular dependency.
+				components = components.filter(c => {
+					c.tick();
+					return false;
+				});
+			}
+		}
 	}
 }
